@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakiTech Football Analysis Platform</title>
+    <style>
+        :root {
+            --primary-color: #0b2545;
+            --secondary-color: #13a76c;
+            --accent-color: #ff5a5f;
+            --dark-color: #051923;
+            --light-color: #f8f9fa;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .match-info {
+            text-align: right;
+        }
+        
+        .match-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .match-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 1.5rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+        }
+        
+        /* Panel Styles */
+        .panel {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .panel-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .panel-content {
+            padding: 1rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Grid Layout */
+        .original-video {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        
+        .analysis-video {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .analysis-content {
+            grid-column: 1 / span 2;
+            grid-row: 2;
+        }
+        
+        /* Video Containers */
+        .video-container {
+            width: 100%;
+            background-color: #000;
+            border-radius: 4px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+        
+        /* Analysis Content */
+        .ai-analysis {
+            padding: 1.5rem;
+            overflow-y: auto;
+            direction: rtl; /* For Arabic text */
+            text-align: right;
+            line-height: 1.8;
+            max-height: 500px;
+        }
+        
+        .ai-analysis p {
+            margin-bottom: 1rem;
+        }
+        
+        .ai-analysis h3 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .insights-section {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .insight-item {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .insight-item::before {
+            content: "•";
+            position: absolute;
+            right: -1rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            flex: 1;
+            background-color: var(--light-gray);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .original-video {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            
+            .analysis-video {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            
+            .analysis-content {
+                grid-column: 1;
+                grid-row: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">T</div>
+                <h1>TakiTech</h1>
+            </div>
+            <div class="match-info">
+                <div class="match-title">FC Bayern München vs 1. FC Köln</div>
+                <div class="match-subtitle">Advanced Pressing Analysis | First Half</div>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="dashboard">
+                <!-- Original Match Video -->
+                <div class="panel original-video">
+                    <div class="panel-header">
+                        <div class="panel-title">Original Match Footage</div>
+                        <div class="panel-badge">Live Play</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="video-container">
+                            <video controls class="video-placeholder">
+                                <source src="./KOL v BAY.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pressing Analysis Video -->
+                <div class="panel analysis-video">
+                    <div class="panel-header">
+                        <div class="panel-title">Pressing Intensity Visualization</div>
+                        <div class="panel-badge">Active Pressing [v > 2.0m/s]</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="video-container">
+                            <video controls class="video-placeholder">
+                                <source src="./FC Koln v Bayern-2.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Analysis Content -->
+                <div class="panel analysis-content">
+                    <div class="panel-header">
+                        <div class="panel-title">تحليل أداء الضغط - النصف الأول</div>
+                        <div class="panel-badge">AI Analysis</div>
+                    </div>
+                    <div class="ai-analysis">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">67%</div>
+                                <div class="stat-label">ضغط بايرن ميونخ</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">53%</div>
+                                <div class="stat-label">ضغط كولن</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">2.7s</div>
+                                <div class="stat-label">متوسط وقت الضغط</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">72%</div>
+                                <div class="stat-label">نجاح الاعتراض</div>
+                            </div>
+                        </div>
+                        
+                        <p>تحليل أداء الضغط: بايرن ميونخ ضد كولن يحلل هذا التقرير أداء الضغط لبايرن ميونخ ضد كولن، استنادًا إلى تصور خريطة الحرارة المقدمة. يركز التحليل على تحديد أكثر اللاعبين نشاطًا في الضغط، ومناطق الضغط عالية الكثافة، والتعديلات التكتيكية المحتملة.</p>
+                        
+                        <p>قيود البيانات: يقتصر التحليل على دقة التصور والافتقار إلى تعريفات مقاييس محددة (على سبيل المثال، ما يشكل "الضغط النشط"). تمثل النسب المئوية المعروضة التوزيع النسبي لحركات الضغط داخل المناطق المعروضة، وليس العدد الإجمالي لأحداث الضغط.</p>
+                        
+                        <h3>الملاحظات الرئيسية:</h3>
+                        <p><strong class="highlight">أكثر اللاعبين ضغطًا:</strong> تسلط خريطة الحرارة الضوء على اللاعبين من كلا الفريقين الذين يظهرون نشاطًا كبيرًا في الضغط. يتطلب تحديد اللاعب بدقة بيانات إضافية. ومع ذلك، تشير المناطق عالية الكثافة باستمرار إلى أن لاعبين محددين شاركوا باستمرار في حركات الضغط في تلك المناطق. ستكون هناك حاجة إلى مزيد من التحليل باستخدام بيانات تتبع اللاعبين للحصول على رؤى محددة لكل لاعب.</p>
+                        
+                        <p><strong class="highlight">مناطق شدة الضغط:</strong> تظهر البيانات عدة مناطق من الضغط الشديد طوال المباراة. بالنسبة لبايرن ميونخ، تضمنت هذه المناطق:</p>
+                        <div class="insights-section">
+                            <div class="insight-item">خط الوسط المركزي: ضغط شديد ومستمر في وسط الملعب، بهدف تعطيل ممرات تمرير كولن.</div>
+                            <div class="insight-item">الثلث الدفاعي للخصم: نشاط ضغط كبير في الثلث الدفاعي للخصم.</div>
+                            <div class="insight-item">المناطق الواسعة: الضغط على الأجنحة وخاصة على الجانب الأيمن ملحوظ.</div>
+                        </div>
+                        
+                        <p>بالنسبة لكولن، يبدو أن شدة الضغط العالية هي:</p>
+                        <div class="insights-section">
+                            <div class="insight-item">خط الوسط والمناطق الهجومية: يُظهر كولن المزيد من إجراءات الضغط في خط الوسط وعند محاولة استعادة الكرة بالقرب من منطقة الهجوم.</div>
+                        </div>
+                        
+                        <h3>الاقتراحات التكتيكية:</h3>
+                        <p><strong class="highlight">بايرن ميونخ:</strong> تشير البيانات إلى أن بايرن ميونخ حافظ على حضور ضغط قوي طوال الملعب. لتعزيز ذلك، يمكن للمدرب:</p>
+                        <div class="insights-section">
+                            <div class="insight-item">زيادة التنسيق: ضبط محفزات الضغط ومهام اللاعبين لخلق ضغط أكثر اتساقًا في المناطق المستهدفة. إن الافتقار إلى التغطية الكاملة في بعض المناطق يشير إلى وجود مجال لتحسين تماسك الفريق أثناء الضغط.</div>
+                            <div class="insight-item">الشكل الدفاعي: يعد الحفاظ على وضع دفاعي متماسك أمرًا بالغ الأهمية. وقد يتضمن هذا تعديل خط الدفاع وخط الوسط لخلق تغطية أفضل ومساحة أقل للخصم.</div>
+                        </div>
+                        
+                        <p><strong class="highlight">كولن:</strong> تبدو استراتيجية الضغط لدى كولن أقل تنظيمًا وتركز بشكل أساسي على استعادة الكرة في خط الوسط ودفع الكرة من الوسط بدلاً من الامتداد. تشمل التعديلات المحتملة لكولن ما يلي:</p>
+                        <div class="insights-section">
+                            <div class="insight-item">الانتقال الدفاعي: تحسين الانتقال من الدفاع إلى الهجوم لخلق الفرص أثناء الضغط المضاد بعد الفوز بالاستحواذ.</div>
+                            <div class="insight-item">الضغط المنظم: تنفيذ نظام ضغط أكثر تنظيمًا يركز على المناطق الرئيسية. سيسمح هذا بالضغط المستمر مع الحد من خطر خلق فجوات في الدفاع.</div>
+                        </div>
+                        
+                        <h3>تحليل إضافي:</h3>
+                        <p>للحصول على فهم أكثر شمولاً، هناك حاجة إلى بيانات إضافية، بما في ذلك:</p>
+                        <div class="insights-section">
+                            <div class="insight-item">بيانات تتبع اللاعبين: تحديد اللاعبين المحددين المشاركين في إجراءات الضغط.</div>
+                            <div class="insight-item">معدل نجاح الضغط: قياس فعالية إجراءات الضغط (على سبيل المثال، التدخلات، الاعتراضات، فقدان الكرة).</div>
+                            <div class="insight-item">بيانات السرعة والمسافة: تحليل شدة الضغط من خلال السرعة والمسافة المقطوعة.</div>
+                            <div class="insight-item">شبكات تمرير الخصم: ربط إجراءات الضغط بالتعطيل الناجح لخطوط تمرير الخصم.</div>
+                        </div>
+                        
+                        <p>من شأن هذا التحليل الأعمق أن يوفر رؤى أكثر دقة لإعلام القرارات التكتيكية المستقبلية وتحسين أداء الضغط بشكل عام.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <div>© 2025 TakiTech Football Analysis Platform | Advanced Match Analysis Tools</div>
+        </footer>
+    </div>
+</body>
+</html>

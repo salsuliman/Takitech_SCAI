@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakiTech - Football Analytics Subscription Plans</title>
+    <style>
+        :root {
+            --primary-color: #0b2545;
+            --secondary-color: #13a76c;
+            --accent-color: #ff5a5f;
+            --dark-color: #051923;
+            --light-color: #f8f9fa;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .value-proposition {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Features */
+        .key-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 250px;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        /* Pricing */
+        .pricing-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+        
+        .toggle-option {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray-color);
+        }
+        
+        .toggle-option.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--secondary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .pricing-plans {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .plan {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .plan:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .plan-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .plan-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.2rem;
+        }
+        
+        .price-suffix {
+            font-size: 1rem;
+            color: var(--gray-color);
+        }
+        
+        .plan-description {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 1rem;
+        }
+        
+        .plan-features {
+            padding: 1.5rem;
+        }
+        
+        .plan-feature-item {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 25px;
+            font-size: 0.95rem;
+        }
+        
+        .plan-feature-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .premium-feature:before {
+            color: var(--accent-color);
+        }
+        
+        .plan-cta {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .plan-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+        
+        .plan-button:hover {
+            background-color: #0a1c33;
+        }
+        
+        .premium-plan {
+            position: relative;
+            transform: scale(1.05);
+        }
+        
+        .premium-plan:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 0 0 0 8px;
+        }
+        
+        .premium-plan .plan-button {
+            background-color: var(--accent-color);
+        }
+        
+        .premium-plan .plan-button:hover {
+            background-color: #e85054;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .testimonials-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .testimonial-grid {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .testimonial {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            max-width: 350px;
+            text-align: left;
+            direction: rtl;
+        }
+        
+        .testimonial-content {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: #444;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .author-info {
+            text-align: right;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .author-title {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+        
+        /* FAQ */
+        .faq {
+            margin-top: 4rem;
+        }
+        
+        .faq-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .faq-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            flex: 1 0 calc(50% - 1.5rem);
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+        
+        .faq-answer {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        /* CTA */
+        .cta {
+            margin-top: 4rem;
+            text-align: center;
+            background-color: var(--primary-color);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            background-color: #e85054;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--gray-color);
+            padding-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .plan {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .premium-plan {
+                transform: scale(1);
+            }
+            
+            .premium-plan:hover {
+                transform: translateY(-5px);
+            }
+            
+            .faq-item {
+                flex: 1 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">T</div>
+                <h1>TakiTech</h1>
+            </div>
+            <div class="header-subtitle">Advanced Football Analytics Platform</div>
+            <div class="value-proposition">
+                Unlock the power of data-driven football analysis with our cutting-edge pressing intensity metrics and AI-powered insights.
+            </div>
+        </header>
+        
+        <div class="key-features">
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Advanced Metrics</div>
+                <div class="feature-desc">Access proprietary metrics including Pressing Intensity, not available on any other platform.</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">AI Analysis</div>
+                <div class="feature-desc">Get instant tactical insights generated by our state-of-the-art AI algorithms.</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎮</div>
+                <div class="feature-title">Interactive Visualizations</div>
+                <div class="feature-desc">Explore match data through intuitive and interactive visual tools.</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">Multi-Device Access</div>
+                <div class="feature-desc">Access your analysis on any device, anywhere, anytime.</div>
+            </div>
+        </div>
+        
+        <h2 class="pricing-title">Choose Your Plan</h2>
+        
+        <div class="pricing-toggle">
+            <span class="toggle-option active">Monthly</span>
+            <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-option">Annual (Save 20%)</span>
+        </div>
+        
+        <div class="pricing-plans">
+            <div class="plan">
+                <div class="plan-header">
+                    <div class="plan-name">Basic</div>
+                    <div class="plan-price">$29<span class="price-suffix">/month</span></div>
+                    <div class="plan-description">For individual analysts and enthusiasts</div>
+                </div>
+                <div class="plan-features">
+                    <div class="plan-feature-item">Access to pressing intensity metrics</div>
+                    <div class="plan-feature-item">Basic visualization tools</div>
+                    <div class="plan-feature-item">Top 5 leagues coverage</div>
+                    <div class="plan-feature-item">2 user accounts</div>
+                    <div class="plan-feature-item">5 analyses per month</div>
+                </div>
+                <div class="plan-cta">
+                    <a href="#" class="plan-button">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="plan premium-plan">
+                <div class="premium-badge">Most Popular</div>
+                <div class="plan-header">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">$99<span class="price-suffix">/month</span></div>
+                    <div class="plan-description">For small clubs and serious analysts</div>
+                </div>
+                <div class="plan-features">
+                    <div class="plan-feature-item">All Basic features</div>
+                    <div class="plan-feature-item premium-feature">Full AI tactical analysis</div>
+                    <div class="plan-feature-item premium-feature">Advanced interactive visualizations</div>
+                    <div class="plan-feature-item premium-feature">All top 10 leagues coverage</div>
+                    <div class="plan-feature-item premium-feature">5 user accounts</div>
+                    <div class="plan-feature-item premium-feature">Unlimited analyses</div>
+                    <div class="plan-feature-item premium-feature">API access for custom tools</div>
+                </div>
+                <div class="plan-cta">
+                    <a href="#" class="plan-button">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="plan">
+                <div class="plan-header">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price">$499<span class="price-suffix">/month</span></div>
+                    <div class="plan-description">For professional clubs and organizations</div>
+                </div>
+                <div class="plan-features">
+                    <div class="plan-feature-item">All Pro features</div>
+                    <div class="plan-feature-item">Custom metrics development</div>
+                    <div class="plan-feature-item">Dedicated account manager</div>
+                    <div class="plan-feature-item">Unlimited user accounts</div>
+                    <div class="plan-feature-item">Custom data integration</div>
+                    <div class="plan-feature-item">Secure data storage</div>
+                    <div class="plan-feature-item">Priority support</div>
+                </div>
+                <div class="plan-cta">
+                    <a href="#" class="plan-button">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonials">
+            <h2 class="testimonials-title">What Our Clients Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "نظام تحليل الضغط من TakiTech أحدث ثورة في استراتيجيتنا التكتيكية. لقد وفر لنا رؤى لم نكن لنحصل عليها بطرق أخرى، مما ساعدنا على تحسين أدائنا الدفاعي بشكل كبير."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ح.م</div>
+                        <div class="author-info">
+                            <div class="author-name">حسن محمود</div>
+                            <div class="author-title">مدرب تكتيكي - نادي الأهلي</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "كمحلل بيانات، أقدر حقًا دقة ومرونة منصة TakiTech. توفر أدوات التصور والتحليل الذكي وجهة نظر فريدة حول الضغط والأداء الدفاعي تساعدنا على اتخاذ قرارات أفضل."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">س.ع</div>
+                        <div class="author-info">
+                            <div class="author-name">سمير العلي</div>
+                            <div class="author-title">رئيس تحليل البيانات - اتحاد كرة قدم</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "مع TakiTech، أصبحت قادرًا على تحديد نقاط القوة والضعف في استراتيجيات الضغط بشكل سريع. المنصة سهلة الاستخدام وتقدم رؤى عميقة ساعدتنا على تطوير تكتيكات أكثر فعالية."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ن.ق</div>
+                        <div class="author-info">
+                            <div class="author-name">نادر القاسم</div>
+                            <div class="author-title">مدير فني - أكاديمية كرة قدم</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">What is Pressing Intensity?</div>
+                    <div class="faq-answer">Pressing Intensity is our proprietary metric that measures the effectiveness of a team's pressing actions. It combines player positioning, movement, speed, and tactical coordination to provide a comprehensive analysis of defensive pressure.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How is the AI analysis generated?</div>
+                    <div class="faq-answer">Our AI system analyzes tracking data, event data, and historical patterns to generate tactical insights. It identifies pressing patterns, effectiveness, and provides recommendations for improvement based on advanced algorithms and models.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Can I upgrade or downgrade my plan?</div>
+                    <div class="faq-answer">Yes, you can upgrade or downgrade your subscription at any time. Changes will take effect in the next billing cycle, and pricing will be adjusted accordingly.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer custom solutions for specific needs?</div>
+                    <div class="faq-answer">Yes, our Enterprise plan includes custom solutions tailored to your organization's specific requirements. Contact our sales team to discuss your needs and we'll create a package that works for you.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Which leagues do you cover?</div>
+                    <div class="faq-answer">Our Basic plan covers the top 5 European leagues, while the Pro plan extends to the top 10 global leagues. Enterprise clients can request coverage for additional leagues or competitions.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How often is new data added?</div>
+                    <div class="faq-answer">Match data is typically processed and made available within 24 hours after the game concludes. Pro and Enterprise subscribers get priority access to new data as soon as it's available.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <h2 class="cta-title">Transform Your Football Analysis Today</h2>
+            <p class="cta-description">Join hundreds of clubs, coaches, and analysts who are taking their understanding of the game to the next level with TakiTech's advanced football analytics platform.</p>
+            <a href="#" class="cta-button">Start Free Trial</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 TakiTech Football Analysis Platform | All Rights Reserved</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Toggle between monthly and annual pricing
+        document.querySelector('.toggle-switch input').addEventListener('change', function() {
+            const toggleOptions = document.querySelectorAll('.toggle-option');
+            toggleOptions.forEach(option => option.classList.toggle('active'));
+            
+            const prices = document.querySelectorAll('.plan-price');
+            if (this.checked) {
+                // Annual pricing (20% discount)
+                prices[0].innerHTML = '$278<span class="price-suffix">/year</span>';
+                prices[1].innerHTML = '$950<span class="price-suffix">/year</span>';
+                prices[2].innerHTML = '$4790<span class="price-suffix">/year</span>';
+            } else {
+                // Monthly pricing
+                prices[0].innerHTML = '$29<span class="price-suffix">/month</span>';
+                prices[1].innerHTML = '$99<span class="price-suffix">/month</span>';
+                prices[2].innerHTML = '$499<span class="price-suffix">/month</span>';
+            }
+        });
+    </script>
+</body>
+</html>
